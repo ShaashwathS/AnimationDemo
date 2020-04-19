@@ -1,5 +1,3 @@
-
-
 import java.awt.*;
 import java.util.*;
 
@@ -11,6 +9,7 @@ public class Mario extends Sprite {
 	public static final int MARIO_HEIGHT = 60;
 	private boolean canWalkRight;
 	private boolean canWalkLeft;
+	private boolean isonplat;
 	public Mario(PImage img, int x, int y) {
 		super(img, x, y, MARIO_WIDTH, MARIO_HEIGHT);
 		canWalkRight = true;
@@ -25,7 +24,9 @@ public class Mario extends Sprite {
 	 * @param dir This will be a positive 1 to indicate walking to the right, or a -1 to indicate left.
 	 */
 	public void walk(int dir) {
-		setVelocity(8 * dir, 0);
+		canWalkLeft = true;
+		canWalkRight = true;
+		setVelocity(5 * dir, 0);
 		moveByVelocities();
 	}
 
@@ -35,7 +36,9 @@ public class Mario extends Sprite {
 	 * jumping when Mario is touching the ground.
 	 */
 	public void jump() {
-		setVelocity(0, -15); 
+		canWalkLeft = true;
+		canWalkRight = true;
+		setVelocity(0, -10); 
 		moveByVelocities();
 	}
 
@@ -53,30 +56,52 @@ public class Mario extends Sprite {
 	public boolean getCanWalkLeft() {
 		return canWalkLeft;
 	}
+	public boolean getAct() {
+		
+		return isonplat;
+	}
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
 		if(obstacles.get(0).intersects(this) || obstacles.get(1).intersects(this) || 
 		obstacles.get(2).intersects(this) || obstacles.get(3).intersects(this) || obstacles.get(4).
 		intersects(this)) {
+			
+			
 			setVelocity(0, 0);
 			moveByVelocities();
-			if(obstacles.get(3).intersects(this)) {
-				if(x == 375 && y <= 300 && y >= 200) {
-					canWalkLeft = false;
-					canWalkRight = true;
-				}
-				if(x == 425 && y <= 300 && y >= 200) {
+			
+				if(x == 375 && y <= 400 && y >= 300) {
+					//System.out.println("f");
+					setVelocity(0, 0);
 					canWalkLeft = true;
 					canWalkRight = false;
 				}
-				
+				if(x == 425 && y <= 400 && y >= 300) {
+					//System.out.println("s");
+					setVelocity(0, 0);
+					canWalkLeft = false;
+					canWalkRight = true;
+
 			}
+				
+				if(x >= 300 && x <=500 && y <= 300 && y >= 250) {
+					//System.out.println("s");
+					setVelocity(0, 13);
+					moveByVelocities();
+					canWalkLeft = false;
+					canWalkRight = false;
+
+			}
+			
+				isonplat =  true;
 		}
 		
 		else {
-
-			setVelocity(0, 10);
+			canWalkLeft = true;
+			canWalkRight = true;
+			setVelocity(0, 6);
 			moveByVelocities();
+			isonplat =  false;
 		}
 		
 
