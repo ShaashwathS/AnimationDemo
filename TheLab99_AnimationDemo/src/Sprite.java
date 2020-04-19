@@ -23,7 +23,12 @@ public class Sprite extends Rectangle2D.Double {
 		vy = 0;
 	}
 	
-	
+	public double getVX() {
+		return vx;
+	}
+	public double getVY() {
+		return vy;
+	}
 	// METHODS
 	public void moveToLocation(double x, double y) {
 		super.x = x;

@@ -9,9 +9,12 @@ public class Mario extends Sprite {
 
 	public static final int MARIO_WIDTH = 40;
 	public static final int MARIO_HEIGHT = 60;
-
+	private boolean canWalkRight;
+	private boolean canWalkLeft;
 	public Mario(PImage img, int x, int y) {
 		super(img, x, y, MARIO_WIDTH, MARIO_HEIGHT);
+		canWalkRight = true;
+		canWalkLeft = true;
 	}
 
 	// METHODS
@@ -22,7 +25,8 @@ public class Mario extends Sprite {
 	 * @param dir This will be a positive 1 to indicate walking to the right, or a -1 to indicate left.
 	 */
 	public void walk(int dir) {
-		// WALK!
+		setVelocity(8 * dir, 0);
+		moveByVelocities();
 	}
 
 	/**
@@ -31,7 +35,8 @@ public class Mario extends Sprite {
 	 * jumping when Mario is touching the ground.
 	 */
 	public void jump() {
-		// JUMP!
+		setVelocity(0, -15); 
+		moveByVelocities();
 	}
 
 	/**
@@ -42,8 +47,40 @@ public class Mario extends Sprite {
 	 * 
 	 * @param obstacles A list of obstacles in the window that Mario should not be able to intersect with.
 	 */
+	public boolean getCanWalkRight() {
+		return canWalkRight;
+	}
+	public boolean getCanWalkLeft() {
+		return canWalkLeft;
+	}
 	public void act(ArrayList<Shape> obstacles) {
 		// FALL (and stop when a platform is hit)
+		if(obstacles.get(0).intersects(this) || obstacles.get(1).intersects(this) || 
+		obstacles.get(2).intersects(this) || obstacles.get(3).intersects(this) || obstacles.get(4).
+		intersects(this)) {
+			setVelocity(0, 0);
+			moveByVelocities();
+			if(obstacles.get(3).intersects(this)) {
+				if(x == 375 && y <= 300 && y >= 200) {
+					canWalkLeft = false;
+					canWalkRight = true;
+				}
+				if(x == 425 && y <= 300 && y >= 200) {
+					canWalkLeft = true;
+					canWalkRight = false;
+				}
+				
+			}
+		}
+		
+		else {
+
+			setVelocity(0, 10);
+			moveByVelocities();
+		}
+		
+
+		
 		
 		// Note that there are some useful methods already in the Java library for detecting basic
 		// rectangular intersection. Try this:
