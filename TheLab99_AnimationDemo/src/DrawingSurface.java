@@ -13,6 +13,7 @@ public class DrawingSurface extends PApplet {
 	public static final int DRAWING_HEIGHT = 600;
 
 	private Rectangle screenRect;
+
 	private Mario mario;
 	private ArrayList<Shape> obstacles;
 
@@ -26,6 +27,7 @@ public class DrawingSurface extends PApplet {
 		keys = new ArrayList<Integer>();
 		screenRect = new Rectangle(0,0,DRAWING_WIDTH,DRAWING_HEIGHT);
 		obstacles = new ArrayList<Shape>();
+		
 		obstacles.add(new Rectangle(200,400,400,50));
 		obstacles.add(new Rectangle(0,250,100,50));
 		obstacles.add(new Rectangle(700,250,100,50));
@@ -80,18 +82,18 @@ public class DrawingSurface extends PApplet {
 
 		// modifying stuff
 
-		if (isPressed(KeyEvent.VK_LEFT)) {
-			if(mario.getCanWalkLeft()) {
+		if (isPressed(KeyEvent.VK_LEFT))
+			if(mario.getCanWalkLeft() == true) {
 				mario.walk(-1);
 			}
-		}
-		if (isPressed(KeyEvent.VK_RIGHT)) {
-			if(mario.getCanWalkRight()) {
+		if (isPressed(KeyEvent.VK_RIGHT))
+			if(mario.getCanWalkRight() == true) {
 				mario.walk(1);
 			}
-		}		
 		if (isPressed(KeyEvent.VK_UP)) {
-			mario.jump();
+		//	if(mario.getAct() == true) {
+				mario.jump();
+			//}
 		}
 
 		mario.act(obstacles);
@@ -103,6 +105,7 @@ public class DrawingSurface extends PApplet {
 
 	public void keyPressed() {
 		keys.add(keyCode);
+		
 	}
 
 	public void keyReleased() {
